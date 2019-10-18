@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Grid Playground</title>
+    <style>
+        /******* simple grid ********/
+        
+        .container-1 {
+            display: grid;
+            grid-template-columns: 100px 100px 100px;
+            grid-template-rows: 100px 100px 100px;
+            grid-gap: 10px;
+            visibility: hidden;
+        }
+        /******** grid-auto-rows ********/
+        
+        .container-2 {
+            display: grid;
+            grid-template-columns: 100px 100px 100px;
+            grid-template-rows: 100px 100px;
+            grid-gap: 10px;
+            grid-auto-rows: 200px;
+            visibility: hidden;
+        }
+        /******** grid-auto-flow: column ********/
+        
+        .container-3 {
+            display: grid;
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            grid-auto-flow: column;
+            visibility: hidden;
+        }
+        /******** Using Percentage in CSS Grid ********/
+        
+        .container-4 {
+            display: grid;
+            grid-template-columns: 20% 20% 60%;
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            outline: 2px solid darkblue;
+            visibility: hidden;
+        }
+        /******** using “fr” ********/
+        
+        .container-5 {
+            display: grid;
+            grid-template-columns: 20fr 20fr 60fr;
+            /* grid-template-columns: 1fr 1fr 2fr; */
+            /* grid-template-columns: 30px 20fr 60fr; */
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            outline: 2px solid darkblue;
+            visibility: hidden;
+        }
+        /******** Repeat() function ********/
+        
+        .container-6 {
+            display: grid;
+            /* grid-template-columns: 25fr 25fr 25fr 25fr; */
+            /* grid-template-columns: repeat(4, 25fr); */
+            grid-template-columns: repeat(2, 20fr) repeat(2, 30fr);
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            visibility: hidden;
+        }
+        /******** Sizing Items - span on 2th div ********/
+        
+        .container-7 {
+            display: grid;
+            grid-template-columns: repeat(2, 20fr) repeat(2, 30fr);
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            /* grid-auto-flow: dense */
+            visibility: hidden;
+        }
+        
+        .container-7>div:nth-child(2) {
+            grid-column: span 2;
+            /* grid-column: span 5; */
+        }
+        /******** Sizing Items - grid-column: 2 / 5 on 2th div ********/
+        
+        .container-8 {
+            display: grid;
+            grid-template-columns: repeat(2, 20fr) repeat(2, 30fr);
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            visibility: hidden;
+        }
+        
+        .container-8>div:nth-child(2) {
+            grid-column: 2 / 5
+        }
+        /******** Sizing Items - grid-column: 5 / -2 on 2th div ********/
+        
+        .container-9 {
+            display: grid;
+            grid-template-columns: repeat(2, 20fr) repeat(2, 30fr);
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            visibility: hidden;
+        }
+        
+        .container-9>div:nth-child(2) {
+            /* grid-column: 5 / -2 */
+            grid-column: span 3 / -1
+        }
+        /******** Auto Fit /Auto Fill ********/
+        
+        .container-10,
+        .container-11 {
+            display: grid;
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            margin-bottom: 50px;
+            visibility: hidden;
+        }
+        
+        .grid-auto-fit {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        }
+        
+        .grid-auto-fill {
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+        /******** Grid Template Areas ********/
+        
+        .container-12 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            grid-template-areas: "header header header" "aside section section" "aside section section" "footer footer footer";
+            visibility: hidden;
+        }
+        
+        header {
+            background-color: aqua;
+            border: 1px solid black;
+            text-align: center;
+            grid-area: header;
+            /* grid-column: header-start header-end */
+        }
+        
+        footer {
+            background-color: aquamarine;
+            border: 1px solid black;
+            text-align: center;
+            grid-area: footer;
+        }
+        
+        aside {
+            background-color: bisque;
+            border: 1px solid black;
+            text-align: center;
+            grid-area: aside;
+        }
+        
+        section {
+            background-color: lightseagreen;
+            border: 1px solid black;
+            text-align: center;
+            grid-area: section;
+        }
+        
+        .hamburger {
+            background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGhlaWdodD0iMzJweCIgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyIDMyOyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMnB4IiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48cGF0aCBkPSJNNCwxMGgyNGMxLjEwNCwwLDItMC44OTYsMi0ycy0wLjg5Ni0yLTItMkg0QzIuODk2LDYsMiw2Ljg5NiwyLDhTMi44OTYsMTAsNCwxMHogTTI4LDE0SDRjLTEuMTA0LDAtMiwwLjg5Ni0yLDIgIHMwLjg5NiwyLDIsMmgyNGMxLjEwNCwwLDItMC44OTYsMi0yUzI5LjEwNCwxNCwyOCwxNHogTTI4LDIySDRjLTEuMTA0LDAtMiwwLjg5Ni0yLDJzMC44OTYsMiwyLDJoMjRjMS4xMDQsMCwyLTAuODk2LDItMiAgUzI5LjEwNCwyMiwyOCwyMnoiLz48L3N2Zz4=') no-repeat;
+            position: relative;
+            top: -15px;
+            left: 5px;
+            width: 30px;
+            height: 30px;
+            border: 1px solid black;
+            padding: 1px;
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .container-12 {
+                grid-template-areas: "header header header" "section section section" "section section section" "footer footer footer";
+            }
+            aside {
+                visibility: hidden;
+            }
+            .hamburger {
+                display: block;
+            }
+        }
+        /******** Alignment ********/
+        
+        .container-13 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 100px;
+            grid-gap: 10px;
+            align-items: center;
+            justify-content: end;
+            visibility: hidden;
+        }
+        /******** wrapper ********/
+        
+        .wrapper {
+            background-color: whitesmoke;
+        }
+        
+        .wrapper>div {
+            color: white;
+            background-color: crimson;
+            border: 1px solid black;
+            text-align: center
+        }
+    </style>
+</head>
+
+<body>
+    <h3>simple grid</h3>
+    <div class="wrapper container-1">
+        <div>1
+            <!-- <h1>VERY LONG TEXT</h1> -->
+        </div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>grid-auto-rows</h3>
+    <div class="wrapper container-2">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>grid-auto-flow: column</h3>
+    <div class="wrapper container-3">
+        <div>1
+            <t>grow! grow! grow! grow!</t>
+        </div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>Using Percentage in CSS Grid</h3>
+    <div class="wrapper container-4">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>using “fr”</h3>
+    <div class="wrapper container-5">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>Repeat() function</h3>
+    <div class="wrapper container-6">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>Sizing Items - span on 2th div </h3>
+    <div class="wrapper container-7">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>Sizing Items - grid-column: 2 / 5 on 2th div</h3>
+    <div class="wrapper container-8">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>Sizing Items - grid-column: 5 / -2 on 2th div</h3>
+    <div class="wrapper container-9">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+    </div>
+
+    <h3>Auto Fit</h3>
+    <div class="wrapper container-10 grid-auto-fit">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+    </div>
+
+    <h3>Auto Fill</h3>
+    <div class="wrapper container-11 grid-auto-fill">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+    </div>
+
+    <h3>Grid Template Areas</h3>
+    <div class="wrapper container-12">
+        <header>header
+            <div class="hamburger"></div>
+        </header>
+        <aside>aside</aside>
+        <section>section</section>
+        <footer>footer</footer>
+    </div>
+
+    <h3>Alignment</h3>
+    <div class="wrapper container-13">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+    </div>
+
+</body>
+
+</html>
